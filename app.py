@@ -3,7 +3,9 @@ from flask_socketio import SocketIO, send
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key'
-SocketIO.run(app, debug=True, allow_unsafe_werkzeug=True)
+
+# Create a SocketIO instance
+socketio = SocketIO(app)
 
 @app.route('/')
 def index():
@@ -15,4 +17,5 @@ def handle_message(msg):
     send(msg, broadcast=True)
 
 if __name__ == '__main__':
-    SocketIO.run(app, debug=True)
+    # Run the app (allow_unsafe_werkzeug is only for development on Render etc.)
+    socketio.run(app, debug=True, allow_unsafe_werkzeug=True)
